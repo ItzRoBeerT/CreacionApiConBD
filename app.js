@@ -1,11 +1,14 @@
 const express = require("express");
 const { MongoClient, ObjectID } = require("mongodb");
+
 const app = express();
 const port = 3000;
 
 const connectionURL = "mongodb://127.0.0.1:27017";
 const databaseName = "TestContactos";
+
 app.use(express.json());
+
 let db;
 
 MongoClient.connect(
@@ -41,6 +44,7 @@ app.post("/create", (req, res) => {
       }
       console.log(result.op);
     };
+
   res.end();
 });
 
@@ -57,7 +61,7 @@ app.put("/updateContacto", (req, res) => {
   let edad = req.body.edad;
   let telefono = req.body.telefono;
   let dni = req.body.dni;
-  let nombre = req.body.nombre+"";
+  let nombre = req.body.nombre;
   
   console.log("el dni: "+dni)
   db.collection("Contacto")
@@ -80,7 +84,9 @@ app.put("/updateContacto", (req, res) => {
     .catch((error) => {
       console.log(error);
     });
+    res.end();
 });
+
 app.delete("/deleteContacto", (req, res) => {
   let id = req.body.id;
 
@@ -94,6 +100,7 @@ app.delete("/deleteContacto", (req, res) => {
     .catch((error) => {
       console.log(error);
     });
+    res.end();
 });
 
 app.listen(port, () => {
